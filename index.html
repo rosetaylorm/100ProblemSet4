@@ -1,3 +1,4 @@
+<!--Taylor Rose, roset@mit.edu, R01, Kelley Vetterman, Problem Set #4-->
 <!DOCTYPE html>
 <html>
 
@@ -28,7 +29,7 @@ function init(){
 	overlay = new google.maps.OverlayView();
 	overlay.draw = function(){};
 	overlay.setMap(map);
-}
+};
 
 function addCanvas(){
 	var canvas = document.createElement('canvas');
@@ -46,7 +47,7 @@ function addCanvas(){
 	}
 	//call timer
 	timer();
-}
+};
 
 function createPerson(){
 	var start = {
@@ -69,27 +70,35 @@ function createPerson(){
 		fillStyle : fillStyle, 
 		currentPosition : currentPosition
 	};
-}
+};
 
 function timer(){
 	drawCircle();
 	setTimeout(timer, 100);
-}
+};
 
-function drawCircle(){
-	var x = 640*Math.random();
-	var y = 480*Math.random();
+function drawCircle(lat, long){
 	var r = 10;
-	var red = Math.floor(255*Math.random());
-	var green = Math.floor(255*Math.random());
-	var blue = Math.floor(255*Math.random());
-	var myStyle = 'rgba('+red+', '+green+', '+blue+', 0.4)';
-	context.fillStyle = myStyle;
+	context.fillStyle = 'rgba( 255, 0, 0, .4)';
 	context.beginPath();
 	context.arc(x, y, r ,0, Math.PI*2, true);
 	context.closePath();
 	context.fill();
-}
+};
+
+function processData(){
+	//get bus lat & long
+	//attach lat & long to an id
+};
+
+function timeStep(){
+	//update bus position using data from processData()
+};
+
+function updateBuses(){
+	//call timeStep to retrieve new info
+	//update image's position using drawCircle(newLat, newLong) that we retrieved from timeStep
+};
 
 google.maps.event.addDomListener(window, 'load', init);
 
