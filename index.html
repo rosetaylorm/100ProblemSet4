@@ -13,6 +13,7 @@ var coordinates = [
 var map;
 var overlay;
 var context;
+var progress = 0;
 var persons = [];
 
 function init(){
@@ -62,7 +63,12 @@ function createPerson(){
 
 	var fillStyle = 'rgba('+ Math.floor(Math.random()*255) + ','+ Math.floor(Math.random()*255) + ','+ Math.floor(Math.random()*255) + ', .5)';
 
-	var currentPosition = function(){};
+	var currentPosition = function(){
+		var current = {};
+		current.x = start.x + (end.x - start.x)*progress;
+		current.y = start.y + (end.y - start.y)*progress;
+		return current;
+	};
 	
 	return {
 		start : start,
@@ -73,32 +79,31 @@ function createPerson(){
 };
 
 function timer(){
-	drawCircle();
-	setTimeout(timer, 100);
+	progress += 0.05;
+	if (progress < 1){
+		drawBus();
+		setTimeout(timer, 1000);
+	}
 };
 
-function drawCircle(lat, long){
-	var r = 10;
-	context.fillStyle = 'rgba( 255, 0, 0, .4)';
-	context.beginPath();
-	context.arc(x, y, r ,0, Math.PI*2, true);
-	context.closePath();
-	context.fill();
+function drawBus(){
+	
+	var x;
+	var y;
+	var current;
+	var r = 5;
+
+	var length = persons.length;
+	for (var i=0; i<length; i++){
+		current = persons[i].currentPosition(progress);
+		context.fillStyle = persons[i].fillStyle;
+		context.beginPath();
+		context.arc(current.x, current.y, r, 0, Math.PI*2, true)
+		context.closePath();
+		context.fill();
+	};
 };
 
-function processData(){
-	//get bus lat & long
-	//attach lat & long to an id
-};
-
-function timeStep(){
-	//update bus position using data from processData()
-};
-
-function updateBuses(){
-	//call timeStep to retrieve new info
-	//update image's position using drawCircle(newLat, newLong) that we retrieved from timeStep
-};
 
 google.maps.event.addDomListener(window, 'load', init);
 
