@@ -5,16 +5,12 @@
 <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <!--<script src="/03_03_07_2014.js"></script-->
 <script>
-var coordinates = [
-  {lat:42.350702, lng:-71.107180},
-  {lat:42.359043, lng:-71.093457},
-  {lat:42.373454, lng:-71.118863}   
-];
+
 var map;
 var overlay;
 var context;
 var progress = 0;
-var persons = [];
+var buses = [];
 
 function init(){
 	var latlng = new google.maps.LatLng(42.3510577,-71.0890165);
@@ -42,15 +38,15 @@ function addCanvas(){
 	//get canvas context
 	context = canvas.getContext('2d');
 
-	//create start/end for 100 persons
+	//create start/end for 100 buses
 	for (var i = 0; i<100; i++){
-		persons.push(createPerson());
+		buses.push(createBus());
 	}
 	//call timer
 	timer();
 };
 
-function createPerson(){
+function createBus(){
 	var start = {
 		x : Math.floor(Math.random()*640),
 		y : Math.floor(Math.random()*480)
@@ -93,10 +89,10 @@ function drawBus(){
 	var current;
 	var r = 5;
 
-	var length = persons.length;
+	var length = buses.length;
 	for (var i=0; i<length; i++){
-		current = persons[i].currentPosition(progress);
-		context.fillStyle = persons[i].fillStyle;
+		current = buses[i].currentPosition(progress);
+		context.fillStyle = buses[i].fillStyle;
 		context.beginPath();
 		context.arc(current.x, current.y, r, 0, Math.PI*2, true)
 		context.closePath();
