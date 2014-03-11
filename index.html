@@ -11,6 +11,7 @@ var overlay;
 var context;
 var progress = 0;
 var buses = [];
+var pausedProgress;
 
 function init(){
 	var latlng = new google.maps.LatLng(42.3510577,-71.0890165);
@@ -48,17 +49,26 @@ function addCanvas(){
 
 function createBus(){
 
-	for (var i=0; i</*ned to determine what the max length should be....number of buses...?*/; i++){
+	for (var i=0; i<data.length; i++){ //loop through all data
+		if (data.routeTag = 1){ //get all data with routeTag of 1 indicating it is the 1 bus
+			for (var j=2121; j<=2290; j++){ //loop through all the 1 buses and the vehicleIds
+				if (data.vehicleId = j){ //it then clumps together all the 1 buses with the same vehicleIds
+					for (var k=0; k<=86392; k++){ //loop through timeSteps
+						data.indexOf(this.data)
+					//then find bus at timestep and timestep - 1
+					//var getBus = document.getElementById('????');
+					//var getPreviousBus = document.getElementById('?????');};};
+		};
 		var start = {
-			x : //the longitude of the bus at the previous time step
-			y : //the lattitude of the bus at the previous time step
+			x : //the longitude of the bus at the previous time step getPreviousBus.lon,
+			y : //the lattitude of the bus at the previous time step getPreviousBus.lat
 		}
 
 		var end = {
-			x : //the longtitude of the bus at the current time step
-			y : //the lattitude of the bus at the current time step
+			x : //the longtitude of the bus at the current time step getBus.lon,
+			y : //the lattitude of the bus at the current time step getBus.lat
 		}
-	var start = {
+	/*var start = {
 		x : Math.floor(Math.random()*640),
 		y : Math.floor(Math.random()*480)
 	};
@@ -66,7 +76,7 @@ function createBus(){
 	var end = {
 		x : Math.floor(Math.random()*640),
 		y : Math.floor(Math.random()*480)
-	};
+	};*/
 
 	var fillStyle = 'rgba('+ Math.floor(Math.random()*255) + ','+ Math.floor(Math.random()*255) + ','+ Math.floor(Math.random()*255) + ', .5)';
 	/*to color code the bus: create a for loop with an if statement inside:
@@ -75,6 +85,7 @@ function createBus(){
 		color = 'rgba('+ Math.floor(Math.random()*255) + ','+ Math.floor(Math.random()*255) + ','+ Math.floor(Math.random()*255) + ', .5)';
 		var fillStyle = color;
 	}; */
+
 	var currentPosition = function(){
 		var current = {};
 		current.x = start.x + (end.x - start.x)*progress;
@@ -97,6 +108,16 @@ function timer(){
 		setTimeout(timer, 15);
 	}
 };
+
+function pause(){
+	pausedProgress = progress;
+	progress = 1;
+}
+
+function continue(){
+	progress = pausedProgress;
+	timer();
+}
 
 function drawBus(){
 	
@@ -121,8 +142,9 @@ google.maps.event.addDomListener(window, 'load', init);
 
 </script>
 <input type="button" value="Start"  onclick= "addCanvas()" />
-<input type="button" value="Pause"  onclick= "" /> <!--need to decide function here-->
-<input type="button" value="Continue"  onclick= "" /> <!--need to decide function here-->
+<input type="button" value="Pause"  onclick= "pause()" /> 
+<input type="button" value="Continue"  onclick= "continue()" />
 <div id = 'map' style = 'height: 480px; width: 640px'></div>
+<!--to display current time, call bus.local-->
 
 </html>
