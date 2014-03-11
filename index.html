@@ -47,6 +47,17 @@ function addCanvas(){
 };
 
 function createBus(){
+
+	for (var i=0; i</*ned to determine what the max length should be....number of buses...?*/; i++){
+		var start = {
+			x : //the longitude of the bus at the previous time step
+			y : //the lattitude of the bus at the previous time step
+		}
+
+		var end = {
+			x : //the longtitude of the bus at the current time step
+			y : //the lattitude of the bus at the current time step
+		}
 	var start = {
 		x : Math.floor(Math.random()*640),
 		y : Math.floor(Math.random()*480)
@@ -58,7 +69,12 @@ function createBus(){
 	};
 
 	var fillStyle = 'rgba('+ Math.floor(Math.random()*255) + ','+ Math.floor(Math.random()*255) + ','+ Math.floor(Math.random()*255) + ', .5)';
-
+	/*to color code the bus: create a for loop with an if statement inside:
+	for (var i = 0; i < largest bus number; i++){
+		busRouteNumber = getElementByID('id').routeNum (or something like that);
+		color = 'rgba('+ Math.floor(Math.random()*255) + ','+ Math.floor(Math.random()*255) + ','+ Math.floor(Math.random()*255) + ', .5)';
+		var fillStyle = color;
+	}; */
 	var currentPosition = function(){
 		var current = {};
 		current.x = start.x + (end.x - start.x)*progress;
@@ -88,8 +104,8 @@ function drawBus(){
 	var y;
 	var current;
 	var r = 5;
-
 	var length = buses.length;
+
 	for (var i=0; i<length; i++){
 		current = buses[i].currentPosition(progress);
 		context.fillStyle = buses[i].fillStyle;
