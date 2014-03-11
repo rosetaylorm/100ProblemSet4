@@ -50,9 +50,10 @@ function addCanvas(){
 function createBus(){
 
 	for (var i=0; i<data.length; i++){ //loop through all data
-		if (data.routeTag = 1){ //get all data with routeTag of 1 indicating it is the 1 bus
+		if (data[i].routeTag = 1){ //get all data with routeTag of 1 indicating it is the 1 bus
 			for (var j=2121; j<=2290; j++){ //loop through all the 1 buses and the vehicleIds
-				if (data.vehicleId = j){ //it then clumps together all the 1 buses with the same vehicleIds
+				if (data[i].vehicleId >= 2121 && data[i].vehicleId <= 2290){ //it then clumps together all the 1 buses with the same vehicleIds
+					//create a dictionary with vehicleId's 
 					for (var k=0; k<=86392; k++){ //loop through timeSteps
 						data.indexOf(this.data)
 					//then find bus at timestep and timestep - 1
