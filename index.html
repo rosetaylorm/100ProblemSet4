@@ -12,6 +12,10 @@ var context;
 var progress = 0;
 var buses = [];
 var pausedProgress;
+var updatedData = [];
+var ids = [];
+var allBuses = [];
+var busCounter = [];
 
 function init(){
 	var latlng = new google.maps.LatLng(42.3510577,-71.0890165);
@@ -27,6 +31,8 @@ function init(){
 	overlay = new google.maps.OverlayView();
 	overlay.draw = function(){};
 	overlay.setMap(map);
+
+	processData();
 };
 
 function addCanvas(){
@@ -47,11 +53,8 @@ function addCanvas(){
 	timer();
 };
 
-function createBus(){
+function processData(){
 
-	var updatedData = []
-	var ids = []
-	var allBuses = []
 	for (var i=0; i<data.length; i++){ //loop through all data
 		if (data[i].routeTag == 1){ //get all data with routeTag of 1 indicating it is the 1 bus
 			updatedData = updatedData.push(data[i]);
@@ -71,45 +74,33 @@ function createBus(){
 		
 		for (m = 0; m < ids.length; m++){
 			allBuses.push([]); //creates mini-arrays within our giant array
-			index = ids.indexOf(individualBus.vehicleId);
-			allBuses[index].push(individualBus);
-
-			}
-		}
+			index = ids.indexOf(individualBus.vehicleId); //find which id the bus data matches to
+			allBuses[index].push(individualBus); //push the data onto its individual bus' array
+			};
+		};
 	};
+};
 
-	for (k = 0; k < buses.length; k++){
-		if
-	}
-
-
-			// for (var j=2121; j<=2290; j++){ //loop through all the 1 buses and the vehicleIds
-			// 	if (data[i].vehicleId >= 2121 && data[i].vehicleId <= 2290){ //it then clumps together all the 1 buses with the same vehicleIds
-			// 		//create a dictionary with vehicleId's 
-			// 		for (var k=0; k<=86392; k++){ //loop through timeSteps
-			// 			data.indexOf(this.data)
-					//then find bus at timestep and timestep - 1
-					//var getBus = document.getElementById('????');
-					//var getPreviousBus = document.getElementById('?????');};};
+function createBus(){
+		var time = 0;
+		for (n = 0; n <= 86392; n++){
+			for (p = 0; p < ids.length; p++){
+				if (allBuses[p][n].secondsPastMidnight <= time+15){
+					var xNow = allBuses[p][n].lat;
+					var yNow = allBuses[p][n].lon;
+					time=time+15;
+				};
+			};
 		};
 		var start = {
-			x : //the longitude of the bus at the previous time step getPreviousBus.lon,
-			y : //the lattitude of the bus at the previous time step getPreviousBus.lat
-		}
+			x : currentPosition.x;
+			y : currentPosition.y;
+		};
 
 		var end = {
-			x : //the longtitude of the bus at the current time step getBus.lon,
-			y : //the lattitude of the bus at the current time step getBus.lat
-		}
-	/*var start = {
-		x : Math.floor(Math.random()*640),
-		y : Math.floor(Math.random()*480)
-	};
-
-	var end = {
-		x : Math.floor(Math.random()*640),
-		y : Math.floor(Math.random()*480)
-	};*/
+			x : xNow;
+			y : yNow;
+		};
 
 	var fillStyle = 'rgba('+ Math.floor(Math.random()*255) + ','+ Math.floor(Math.random()*255) + ','+ Math.floor(Math.random()*255) + ', .5)';
 	/*to color code the bus: create a for loop with an if statement inside:
@@ -132,12 +123,15 @@ function createBus(){
 		fillStyle : fillStyle, 
 		currentPosition : currentPosition
 	};
+	
+	createBus();
+};
 };
 
 function timer(){
 	progress += 0.05;
 	if (progress < 1){
-		drawBus();
+		createBus();
 		setTimeout(timer, 15);
 	}
 };
