@@ -49,13 +49,45 @@ function addCanvas(){
 
 function createBus(){
 
+	var updatedData = []
+	var ids = []
+	var allBuses = []
 	for (var i=0; i<data.length; i++){ //loop through all data
-		if (data[i].routeTag = 1){ //get all data with routeTag of 1 indicating it is the 1 bus
-			for (var j=2121; j<=2290; j++){ //loop through all the 1 buses and the vehicleIds
-				if (data[i].vehicleId >= 2121 && data[i].vehicleId <= 2290){ //it then clumps together all the 1 buses with the same vehicleIds
-					//create a dictionary with vehicleId's 
-					for (var k=0; k<=86392; k++){ //loop through timeSteps
-						data.indexOf(this.data)
+		if (data[i].routeTag == 1){ //get all data with routeTag of 1 indicating it is the 1 bus
+			updatedData = updatedData.push(data[i]);
+		};
+	};
+
+	for (var j = 0; j < updatedData.length; j++){ //loop through route 1 list
+		if (ids.indexOf(vehicleId) >= 0){ //if the vehicle id is already included in a new list called ids, pass
+			true;
+		};
+		else{
+			ids.push(vehicleId); //if the vehicle id is not already included in list ids, then append to list
+			ids.sort(); //sort list for sanity
+		};
+
+		var individualBus = {data[j].vehicleId, data[j].lat, data[j].lon, data[j].secondsPastMidnight}; //create a new variable that holds an object for each bus with the id, lat, lon, and time of that bus
+		
+		for (m = 0; m < ids.length; m++){
+			allBuses.push([]); //creates mini-arrays within our giant array
+			index = ids.indexOf(individualBus.vehicleId);
+			allBuses[index].push(individualBus);
+
+			}
+		}
+	};
+
+	for (k = 0; k < buses.length; k++){
+		if
+	}
+
+
+			// for (var j=2121; j<=2290; j++){ //loop through all the 1 buses and the vehicleIds
+			// 	if (data[i].vehicleId >= 2121 && data[i].vehicleId <= 2290){ //it then clumps together all the 1 buses with the same vehicleIds
+			// 		//create a dictionary with vehicleId's 
+			// 		for (var k=0; k<=86392; k++){ //loop through timeSteps
+			// 			data.indexOf(this.data)
 					//then find bus at timestep and timestep - 1
 					//var getBus = document.getElementById('????');
 					//var getPreviousBus = document.getElementById('?????');};};
