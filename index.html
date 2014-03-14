@@ -3,7 +3,7 @@
 <html>
 
 <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-<!--<script src="/03_03_07_2014.js"></script-->
+<script src="03_07_2014.js"></script>
 <script>
 
 var map;
@@ -16,8 +16,9 @@ var updatedData = [];
 var ids = [];
 var allBuses = [];
 var busCounter = [];
+var individualBus = {};
 
-function init(){
+var init = function(){
 	var latlng = new google.maps.LatLng(42.3510577,-71.0890165);
 
 	var myOptions = {
@@ -35,7 +36,7 @@ function init(){
 	processData();
 };
 
-function addCanvas(){
+var addCanvas = function(){
 	var canvas = document.createElement('canvas');
 	canvas.style.position = 'absolute';
 	canvas.width = '640';
@@ -49,39 +50,38 @@ function addCanvas(){
 	for (var i = 0; i<100; i++){
 		buses.push(createBus());
 	}
+	canvas.clearRect(0,0,canvas.width, canvas.height);
 	//call timer
 	timer();
 };
 
-function processData(){
+var processData = function(){
 
 	for (var i=0; i<data.length; i++){ //loop through all data
 		if (data[i].routeTag == 1){ //get all data with routeTag of 1 indicating it is the 1 bus
-			updatedData = updatedData.push(data[i]);
-		};
-	};
+			updatedData.push(data[i]);
+		}
+	}
 
 	for (var j = 0; j < updatedData.length; j++){ //loop through route 1 list
 		if (ids.indexOf(vehicleId) >= 0){ //if the vehicle id is already included in a new list called ids, pass
-			true;
-		};
+		}
 		else{
 			ids.push(vehicleId); //if the vehicle id is not already included in list ids, then append to list
 			ids.sort(); //sort list for sanity
-		};
+		}
 
-		var individualBus = {data[j].vehicleId, data[j].lat, data[j].lon, data[j].secondsPastMidnight}; //create a new variable that holds an object for each bus with the id, lat, lon, and time of that bus
+		individualBus = [updatedData[j].vehicleId, updatedData[j].lat, updatedData[j].lon, updatedData[j].secondsPastMidnight]; //create a new variable that holds an object for each bus with the id, lat, lon, and time of that bus
 		
 		for (m = 0; m < ids.length; m++){
 			allBuses.push([]); //creates mini-arrays within our giant array
-			index = ids.indexOf(individualBus.vehicleId); //find which id the bus data matches to
+			index = ids.indexOf(individualBus[m].vehicleId); //find which id the bus data matches to
 			allBuses[index].push(individualBus); //push the data onto its individual bus' array
-			};
-		};
+		}
 	};
 };
 
-function createBus(){
+var createBus = function(){
 		var time = 0;
 		for (n = 0; n <= 86392; n++){
 			for (p = 0; p < ids.length; p++){
@@ -93,13 +93,13 @@ function createBus(){
 			};
 		};
 		var start = {
-			x : currentPosition.x;
-			y : currentPosition.y;
+			x : currentPosition.x,
+			y : currentPosition.y
 		};
 
 		var end = {
-			x : xNow;
-			y : yNow;
+			x : xNow,
+			y : yNow
 		};
 
 	var fillStyle = 'rgba('+ Math.floor(Math.random()*255) + ','+ Math.floor(Math.random()*255) + ','+ Math.floor(Math.random()*255) + ', .5)';
@@ -126,9 +126,9 @@ function createBus(){
 	
 	createBus();
 };
-};
 
-function timer(){
+
+var timer = function(){
 	progress += 0.05;
 	if (progress < 1){
 		createBus();
@@ -136,17 +136,17 @@ function timer(){
 	}
 };
 
-function pause(){
+var pause = function(){
 	pausedProgress = progress;
 	progress = 1;
-}
+};
 
-function continue(){
+var continueTimer = function(){
 	progress = pausedProgress;
 	timer();
-}
+};
 
-function drawBus(){
+var drawBus = function(){
 	
 	var x;
 	var y;
@@ -168,9 +168,9 @@ function drawBus(){
 google.maps.event.addDomListener(window, 'load', init);
 
 </script>
-<input type="button" value="Start"  onclick= "addCanvas()" />
+<input type="button" value="Start"  onclick= "processData()" />
 <input type="button" value="Pause"  onclick= "pause()" /> 
-<input type="button" value="Continue"  onclick= "continue()" />
+<input type="button" value="Continue"  onclick= "continueTimer()" />
 <div id = 'map' style = 'height: 480px; width: 640px'></div>
 <!--to display current time, call bus.local-->
 
