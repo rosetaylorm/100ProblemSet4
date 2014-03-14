@@ -64,20 +64,23 @@ var processData = function(){
 	}
 
 	for (var j = 0; j < updatedData.length; j++){ //loop through route 1 list
-		if (ids.indexOf(vehicleId) >= 0){ //if the vehicle id is already included in a new list called ids, pass
+		if (ids.indexOf(updatedData[j].vehicleId) >= 0){ //if the vehicle id is already included in a new list called ids, pass
 		}
 		else{
-			ids.push(vehicleId); //if the vehicle id is not already included in list ids, then append to list
+			ids.push(updatedData[j].vehicleId); //if the vehicle id is not already included in list ids, then append to list
 			ids.sort(); //sort list for sanity
+			allBuses.push([]); //creates mini-arrays within our giant array
 		}
 
-		individualBus = [updatedData[j].vehicleId, updatedData[j].lat, updatedData[j].lon, updatedData[j].secondsPastMidnight]; //create a new variable that holds an object for each bus with the id, lat, lon, and time of that bus
-		
-		for (m = 0; m < ids.length; m++){
-			allBuses.push([]); //creates mini-arrays within our giant array
-			index = ids.indexOf(individualBus[m].vehicleId); //find which id the bus data matches to
-			allBuses[index].push(individualBus); //push the data onto its individual bus' array
-		}
+		individualBus[j] = {vehicleId : updatedData[j].vehicleId, 
+						lat : updatedData[j].lat, 
+						lon : updatedData[j].lon, 
+						secondsPastMidnight : updatedData[j].secondsPastMidnight}; //create a new variable that holds an object for each bus with the id, lat, lon, and time of that bus
+	};
+
+	for (m = 0; m < ids.length; m++){
+		index = ids.indexOf(individualBus[m].vehicleId); //find which id the bus data matches to
+		allBuses[index].push(individualBus[m]); //push the data onto its individual bus' array
 	};
 };
 
@@ -147,7 +150,6 @@ var continueTimer = function(){
 };
 
 var drawBus = function(){
-	
 	var x;
 	var y;
 	var current;
