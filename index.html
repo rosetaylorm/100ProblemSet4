@@ -17,12 +17,13 @@ var ids = [];
 var allBuses = [];
 var busCounter = [];
 var individualBus = {};
+var counter = 0;
 
 var init = function(){
 	var latlng = new google.maps.LatLng(42.3510577,-71.0890165);
 
 	var myOptions = {
-		zoom : 14, 
+		zoom : 13, 
 		center : latlng,
 		mapTypeId : google.maps.MapTypeId.ROADMAP};
 
@@ -88,30 +89,24 @@ var createBus = function(){
 		var time = 0;
 		for (n = 0; n <= 86392; n++){
 			for (p = 0; p < ids.length; p++){
-				if (allBuses[p][n].secondsPastMidnight <= time+15){
-					var xNow = allBuses[p][n].lat;
-					var yNow = allBuses[p][n].lon;
+				if (allBuses[p].secondsPastMidnight <= time+15){
+					var xNow = allBuses[p].lat;
+					var yNow = allBuses[p].lon;
 					time=time+15;
 				};
 			};
 		};
-		var start = {
-			x : currentPosition.x,
-			y : currentPosition.y
-		};
 
+		var start = {}
 		var end = {
 			x : xNow,
 			y : yNow
 		};
 
-	var fillStyle = 'rgba('+ Math.floor(Math.random()*255) + ','+ Math.floor(Math.random()*255) + ','+ Math.floor(Math.random()*255) + ', .5)';
-	/*to color code the bus: create a for loop with an if statement inside:
-	for (var i = 0; i < largest bus number; i++){
-		busRouteNumber = getElementByID('id').routeNum (or something like that);
+	for (var i = 0; i < ids.length; i++){;
 		color = 'rgba('+ Math.floor(Math.random()*255) + ','+ Math.floor(Math.random()*255) + ','+ Math.floor(Math.random()*255) + ', .5)';
 		var fillStyle = color;
-	}; */
+	}; 
 
 	var currentPosition = function(){
 		var current = {};
@@ -120,6 +115,8 @@ var createBus = function(){
 		return current;
 	};
 	
+	drawBus();
+
 	return {
 		start : start,
 		end : end, 
@@ -127,7 +124,6 @@ var createBus = function(){
 		currentPosition : currentPosition
 	};
 	
-	createBus();
 };
 
 
@@ -137,6 +133,7 @@ var timer = function(){
 		createBus();
 		setTimeout(timer, 15);
 	}
+	counter=counter+1;
 };
 
 var pause = function(){
@@ -166,13 +163,15 @@ var drawBus = function(){
 	};
 };
 
-
 google.maps.event.addDomListener(window, 'load', init);
+document.addEventListener("DOMContentLoaded", function(){document.getElementById('counting').innerHTML = counter;})
+//$('#counting').text(counter);
 
 </script>
-<input type="button" value="Start"  onclick= "processData()" />
+<input type="button" value="Start"  onclick= "timer()" />
 <input type="button" value="Pause"  onclick= "pause()" /> 
 <input type="button" value="Continue"  onclick= "continueTimer()" />
+<h3 id = 'counting'>time</h3>
 <div id = 'map' style = 'height: 480px; width: 640px'></div>
 <!--to display current time, call bus.local-->
 
